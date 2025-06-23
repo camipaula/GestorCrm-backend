@@ -43,7 +43,7 @@ const PORT = process.env.PORT || 5000;
 
 // Iniciar servidor y conectar base de datos
 app.listen(PORT, async () => {
-  console.log(` Servidor corriendo en http://localhost:${PORT}`);
+console.log(`Servidor corriendo en puerto ${PORT}`);
 
   try {
     await sequelize.authenticate();
