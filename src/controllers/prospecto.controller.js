@@ -269,14 +269,14 @@ const crearProspecto = async (req, res) => {
     }
 
     // Validar duplicado por nombre solo si NO es "Aumento de Portafolio"
-    if (!esAumentoPortafolio) {
+    /*if (!esAumentoPortafolio) {
       const duplicado = await Prospecto.findOne({
         where: { nombre, eliminado: 0 }
       });
       if (duplicado) {
         return res.status(400).json({ message: "Ya existe un prospecto con ese nombre." });
       }
-    }
+    }*/
 
 
 

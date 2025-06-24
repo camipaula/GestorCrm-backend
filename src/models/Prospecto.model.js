@@ -42,10 +42,10 @@
             type: DataTypes.STRING(100),
             allowNull: true,
         },
-        sector: {
+       /* sector: {
             type: DataTypes.STRING(100),
             allowNull: true,
-        },
+        },*/
         id_origen: {
             type: DataTypes.INTEGER,
             allowNull: true,

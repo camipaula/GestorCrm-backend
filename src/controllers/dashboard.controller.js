@@ -17,7 +17,7 @@ const obtenerDashboard = async (req, res) => {
       cedula_vendedora,
       id_categoria,
       id_origen,
-      sector,
+      //sector,
       ciudad
     } = req.query;
 
@@ -39,7 +39,7 @@ const obtenerDashboard = async (req, res) => {
     if (cedula_vendedora) filtrosProspecto.cedula_vendedora = cedula_vendedora;
     if (id_categoria) filtrosProspecto.id_categoria = id_categoria;
     if (id_origen) filtrosProspecto.id_origen = id_origen;
-    if (sector) filtrosProspecto.sector = sector;
+   // if (sector) filtrosProspecto.sector = sector;
     if (ciudad) filtrosProspecto.ciudad = ciudad;
 
     // Buscar ventas con prospecto y sus relaciones
