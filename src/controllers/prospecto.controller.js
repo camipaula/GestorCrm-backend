@@ -221,8 +221,7 @@ const crearProspecto = async (req, res) => {
       id_categoria,
       cedula_vendedora,
       created_at,
-      empleados,
-      monto_proyectado
+      empleados
     } = req.body;
 
     const nombre = toUpper(req.body.nombre);
@@ -232,7 +231,6 @@ const crearProspecto = async (req, res) => {
     const direccion = toUpper(req.body.direccion);
     const provincia = toUpper(req.body.provincia);
     const ciudad = toUpper(req.body.ciudad);
-   // const sector = toUpper(req.body.sector);
     const descripcion = toUpper(req.body.descripcion);
     const nota = toUpper(req.body.nota);
 
