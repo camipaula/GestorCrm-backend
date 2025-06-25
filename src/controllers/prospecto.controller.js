@@ -308,28 +308,6 @@ const crearProspecto = async (req, res) => {
       eliminado: 0,
     });
 
-    // Crear automáticamente una prospección (venta) con objetivo
-    /*
-    if (!req.body.objetivo || req.body.objetivo.trim().length < 1) {
-      return res.status(400).json({ message: "Debes proporcionar un objetivo válido para la prospección." });
-    }
-
-    const nuevaVenta = await VentaProspecto.create({
-      id_prospecto: nuevoProspecto.id_prospecto,
-      objetivo: req.body.objetivo,
-      id_estado: estadoNuevo.id_estado,
-      monto_proyectado: monto_proyectado || null,
-      abierta: 1,
-      eliminado: 0,
-    });
-
-
-    res.status(201).json({
-      message: "Prospecto y prospección creados exitosamente",
-      prospecto: nuevoProspecto,
-      venta: nuevaVenta
-    });*/
-
     res.status(201).json({
       message: "Prospecto creado exitosamente",
       prospecto: nuevoProspecto
