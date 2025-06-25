@@ -49,7 +49,7 @@ console.log(`Servidor corriendo en puerto ${PORT}`);
     await sequelize.authenticate();
     console.log(" Conexión a la base de datos establecida.");
 
-    await sequelize.sync(); 
+    await sequelize.sync({ alter: true }); // SOLO UNA VEZ
     console.log(" Tablas sincronizadas.");
     
   } catch (error) {
