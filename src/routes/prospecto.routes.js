@@ -9,7 +9,7 @@ const {
   crearProspecto,
   actualizarProspecto,
   eliminarProspecto,
-  obtenerSectores,
+  //obtenerSectores,
   obtenerOrigenes,
   obtenerProspectosPorCategoria,
   exportarProspectos,
@@ -25,7 +25,7 @@ const router = express.Router();
 router.get("/exportar", verificarToken, exportarProspectos);
 
 // Obtener todos los sectores únicos de los prospectos
-router.get("/sectores", verificarToken, obtenerSectores);
+//router.get("/sectores", verificarToken, obtenerSectores);
 // Obtener todas las provincias  únicos de los prospectos
 router.get("/provincias", verificarToken, obtenerProvincias);
 

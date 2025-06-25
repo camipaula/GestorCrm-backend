@@ -13,7 +13,7 @@ const obtenerProspectos = async (req, res) => {
   try {
     const { cedula_ruc, rol } = req.usuario;
     const {
-      cedula_vendedora, estado, fechaInicio, fechaFin, sector, id_categoria,
+      cedula_vendedora, estado, fechaInicio, fechaFin, /*sector*/ id_categoria,
       ciudad, provincia, page = 1, limit = 20
     } = req.query;
 
@@ -27,7 +27,7 @@ const obtenerProspectos = async (req, res) => {
       whereClause.cedula_vendedora = cedula_vendedora;
     }
 
-    if (sector) whereClause.sector = sector;
+    //if (sector) whereClause.sector = sector;
     if (id_categoria) whereClause.id_categoria = id_categoria;
     if (fechaInicio && fechaFin) {
       whereClause.created_at = {
@@ -232,7 +232,7 @@ const crearProspecto = async (req, res) => {
     const direccion = toUpper(req.body.direccion);
     const provincia = toUpper(req.body.provincia);
     const ciudad = toUpper(req.body.ciudad);
-    const sector = toUpper(req.body.sector);
+   // const sector = toUpper(req.body.sector);
     const descripcion = toUpper(req.body.descripcion);
     const nota = toUpper(req.body.nota);
 
@@ -296,7 +296,7 @@ const crearProspecto = async (req, res) => {
       direccion,
       provincia,
       ciudad,
-      sector,
+      //sector,
       id_origen,
       id_categoria,
       descripcion,
@@ -354,7 +354,7 @@ const actualizarProspecto = async (req, res) => {
 
     const { id_prospecto } = req.params;
     const {
-      nombre, nombre_contacto, correo, telefono, direccion, provincia, ciudad, sector,
+      nombre, nombre_contacto, correo, telefono, direccion, provincia, ciudad, //sector,
       id_origen, id_categoria, descripcion, id_estado, nota, cedula_vendedora
     } = req.body;
 
@@ -383,7 +383,7 @@ const actualizarProspecto = async (req, res) => {
     prospecto.direccion = direccion ?? prospecto.direccion;
     prospecto.provincia = provincia ?? prospecto.provincia;
     prospecto.ciudad = ciudad ?? prospecto.ciudad;
-    prospecto.sector = sector ?? prospecto.sector;
+   // prospecto.sector = sector ?? prospecto.sector;
     prospecto.id_origen = id_origen ?? prospecto.id_origen;
     prospecto.id_categoria = id_categoria ?? prospecto.id_categoria;
     prospecto.descripcion = descripcion ?? prospecto.descripcion;
@@ -480,7 +480,7 @@ const eliminarProspecto = async (req, res) => {
 };*/
 
 // Obtener todos los sectores únicos de los prospectos
-const obtenerSectores = async (req, res) => {
+/*const obtenerSectores = async (req, res) => {
   try {
     const sectores = await Prospecto.findAll({
       attributes: [[Sequelize.fn("DISTINCT", Sequelize.col("sector")), "sector"]],
@@ -502,7 +502,7 @@ const obtenerSectores = async (req, res) => {
     res.status(500).json({ message: "Error al obtener sectores", error });
   }
 };
-
+*/
 
 const obtenerOrigenes = async (req, res) => {
   try {
@@ -555,7 +555,7 @@ const obtenerProspectosPorCategoria = async (req, res) => {
 const exportarProspectos = async (req, res) => {
   try {
     const { cedula_ruc, rol } = req.usuario;
-    const { cedula_vendedora, estado, fechaInicio, fechaFin, sector } = req.query;
+    const { cedula_vendedora, estado, fechaInicio, fechaFin, /*sector*/ } = req.query;
 
     const whereClause = { eliminado: 0 };
 
@@ -565,7 +565,7 @@ const exportarProspectos = async (req, res) => {
       whereClause.cedula_vendedora = cedula_vendedora;
     }
 
-    if (sector) whereClause.sector = sector;
+   // if (sector) whereClause.sector = sector;
     if (fechaInicio && fechaFin) {
       whereClause.created_at = {
         [Op.between]: [new Date(fechaInicio), new Date(`${fechaFin}T23:59:59`)],
@@ -625,7 +625,7 @@ const exportarProspectos = async (req, res) => {
       { header: "Correo", key: "correo", width: 25 },
       { header: "Teléfono", key: "telefono", width: 15 },
       { header: "Dirección", key: "direccion", width: 30 },
-      { header: "Sector", key: "sector", width: 15 },
+     // { header: "Sector", key: "sector", width: 15 },
       { header: "Objetivo", key: "objetivo", width: 25 },
       { header: "Monto Proyectado", key: "monto_proyectado", width: 20 },
       { header: "Estado", key: "estado", width: 15 },
@@ -648,7 +648,7 @@ const exportarProspectos = async (req, res) => {
           correo: p.correo || "No registrado",
           telefono: p.telefono,
           direccion: p.direccion || "No registrada",
-          sector: p.sector || "No registrado",
+          //sector: p.sector || "No registrado",
           objetivo: "Sin objetivo",
           monto_proyectado: "No definido",
           estado: "Sin estado",
@@ -681,7 +681,7 @@ const exportarProspectos = async (req, res) => {
             correo: p.correo || "No registrado",
             telefono: p.telefono,
             direccion: p.direccion || "No registrada",
-            sector: p.sector || "No registrado",
+           // sector: p.sector || "No registrado",
             empleados: p.empleados || "No registrado",
             objetivo: venta.objetivo || "Sin objetivo",
             monto_proyectado: venta.monto_proyectado ?? "No definido",
@@ -776,7 +776,7 @@ module.exports = {
   crearProspecto,
   actualizarProspecto,
   eliminarProspecto,
-  obtenerSectores,
+ // obtenerSectores,
   obtenerOrigenes,
   obtenerProspectosPorCategoria,
   exportarProspectos,
