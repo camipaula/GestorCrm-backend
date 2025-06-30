@@ -49,8 +49,8 @@ console.log(`Servidor corriendo en puerto ${PORT}`);
     await sequelize.authenticate();
     console.log(" Conexión a la base de datos establecida.");
 
-    await sequelize.sync(); 
-    console.log(" Tablas sincronizadas.");
+   // await sequelize.sync(); 
+  // console.log(" Tablas sincronizadas.");
     
   } catch (error) {
     console.error(" Error al conectar la base de datos:", error);
