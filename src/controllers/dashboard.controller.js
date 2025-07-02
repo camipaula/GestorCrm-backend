@@ -92,7 +92,7 @@ const obtenerDashboard = async (req, res) => {
     );
 
     const ventasPerdidas = ventas.filter(v =>
-      v.estado_venta?.nombre === "Competencia"
+      v.estado_venta?.nombre === "No interesado"
     );
 
 
@@ -168,7 +168,7 @@ const obtenerDashboard = async (req, res) => {
   "En Atracción",
   "En Planeación",
   "Cierre",
-  "Competencia",
+  "No interesado",
   "Reabierto"
 ];
 
@@ -187,7 +187,7 @@ const graficoEstadosProspecto = Object.entries(resumenEstadosVenta)
   );
 
 
-    // Filtrar prospecciones en competencia
+    // Filtrar prospecciones en no interesado
     const tablaCompetencia = ventasPerdidas.map(v => {
       const ultimoSeguimiento = v.seguimientos?.[0];
 

@@ -204,8 +204,8 @@ const crearSeguimientoConHoraAutomatica = async (req, res) => {
     const { id_venta, cedula_vendedora, fecha_programada, id_tipo, motivo, nota } = req.body;
 
     if (!fecha_programada || !/^\d{4}-\d{2}-\d{2}$/.test(fecha_programada)) {
-  return res.status(400).json({ message: "Se debe enviar la fecha en formato yyyy-mm-dd." });
-}
+      return res.status(400).json({ message: "Se debe enviar la fecha en formato yyyy-mm-dd." });
+    }
 
     const fechaSinHora = fecha_programada.split("T")[0];
 
@@ -286,7 +286,7 @@ const crearSeguimientoConHoraAutomatica = async (req, res) => {
     res.status(201).json({
       message: `Seguimiento creado exitosamente a las ${formatoFinal}`,
       seguimiento: nuevoSeguimiento,
-      hora_formateada: formatoFinal 
+      hora_formateada: formatoFinal
     });
 
 
@@ -341,7 +341,7 @@ const registrarResultadoSeguimiento = async (req, res) => {
     // Asignar el estado a la venta
     venta.id_estado = nuevoEstado.id_estado;
 
-    // Si el estado es Cierre o Competencia, cerrar la venta
+    // Si el estado es Cierre o No interesado, cerrar la venta
     if (estado === "Cierre") {
       if (!monto_cierre) {
         return res.status(400).json({ message: "Debes enviar el monto de cierre para una venta ganada." });
@@ -349,10 +349,11 @@ const registrarResultadoSeguimiento = async (req, res) => {
       venta.abierta = 0;
       venta.fecha_cierre = new Date();
       venta.monto_cierre = monto_cierre;
-    } else if (estado === "Competencia") {
+    } else if (estado.trim().toLowerCase() === "no interesado") {
       venta.abierta = 0;
       venta.fecha_cierre = new Date();
     }
+
 
     await venta.save();
 
@@ -367,8 +368,8 @@ const registrarResultadoSeguimiento = async (req, res) => {
     // Enviar correo si es necesario (sin bloquear al usuario)
     if (estado === "Cierre") {
       enviarCorreoCierre({ prospecto, estado: "Cierre", monto: monto_cierre }).catch(console.error);
-    } else if (estado === "Competencia") {
-      enviarCorreoCierre({ prospecto, estado: "Competencia", monto: 0 }).catch(console.error);
+    } else if (estado === "No interesado") {
+      enviarCorreoCierre({ prospecto, estado: "No interesado", monto: 0 }).catch(console.error);
     }
 
   } catch (error) {
@@ -636,8 +637,8 @@ const editarSeguimiento = async (req, res) => {
     }
 
     if (fecha_programada) {
-  seguimiento.fecha_programada = parseLocalDatetime(fecha_programada);
-}
+      seguimiento.fecha_programada = parseLocalDatetime(fecha_programada);
+    }
 
 
     seguimiento.id_tipo = id_tipo || seguimiento.id_tipo;

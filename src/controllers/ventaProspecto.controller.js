@@ -486,8 +486,8 @@ const reabrirVenta = async (req, res) => {
       return res.status(400).json({ message: "La venta ya está abierta" });
     }
 
-    if (!venta.estado_venta || venta.estado_venta.nombre !== "Competencia") {
-      return res.status(400).json({ message: "Solo se pueden reabrir ventas en estado 'Competencia'" });
+    if (!venta.estado_venta || venta.estado_venta.nombre !== "No interesado") {
+      return res.status(400).json({ message: "Solo se pueden reabrir ventas en estado 'No interesado'" });
     }
 
     const estadoReabierto = await EstadoProspecto.findOne({ where: { nombre: "reabierto" } });

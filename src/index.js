@@ -21,7 +21,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ["http://147.93.10.109:8082", "https://gestortax.neola.app"],
+  origin: ["http://147.93.10.109:8082", "https://gestortax.neola.app","http://localhost:5173"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
