@@ -88,7 +88,7 @@ const signup = async (req, res) => {
       email,
       password: hashedPassword,
       rol,
-      estado: 1, // opcional, para activar usuario por defecto
+      estado: 1, 
     });
 
     res.status(201).json({ message: "Usuario creado exitosamente", usuario: nuevoUsuario });

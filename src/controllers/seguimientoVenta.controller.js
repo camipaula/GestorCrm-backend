@@ -91,7 +91,7 @@ const obtenerSeguimientosPorVendedora = async (req, res) => {
         },
         {
           model: EstadoProspecto,
-          as: "estado_venta", //  nuevo include correcto
+          as: "estado_venta",
           attributes: ["nombre"]
         },
         {
@@ -112,7 +112,7 @@ const obtenerSeguimientosPorVendedora = async (req, res) => {
 
 
 
-// Obtener la agenda de una vendedora (para el calendario en frontend)
+// Obtener la agenda de una vendedora =para el calendario en frontend
 const obtenerAgendaPorVendedora = async (req, res) => {
   try {
     const { cedula_vendedora } = req.params;
@@ -162,7 +162,7 @@ const crearSeguimiento = async (req, res) => {
     const { id_venta, cedula_vendedora, fecha_programada, id_tipo, motivo, nota } = req.body;
     const fechaUTC = parseLocalDatetime(fecha_programada);
 
-    // Validación: No más de 1 año en adelante
+    // Validación No más de 1 año en adelante
     const hoy = new Date();
     const maxFecha = new Date();
     maxFecha.setFullYear(hoy.getFullYear() + 1);

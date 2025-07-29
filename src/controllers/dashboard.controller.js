@@ -39,7 +39,7 @@ const obtenerDashboard = async (req, res) => {
     if (cedula_vendedora) filtrosProspecto.cedula_vendedora = cedula_vendedora;
     if (id_categoria) filtrosProspecto.id_categoria = id_categoria;
     if (id_origen) filtrosProspecto.id_origen = id_origen;
-   // if (sector) filtrosProspecto.sector = sector;
+    // if (sector) filtrosProspecto.sector = sector;
     if (ciudad) filtrosProspecto.ciudad = ciudad;
 
     // Buscar ventas con prospecto y sus relaciones
@@ -81,7 +81,6 @@ const obtenerDashboard = async (req, res) => {
 
       ]
     });
-
 
 
     const totalVentas = ventas.length;
@@ -164,27 +163,27 @@ const obtenerDashboard = async (req, res) => {
     });
 
     const ordenFases = [
-  "Nuevo",
-  "En Atracción",
-  "En Planeación",
-  "Cierre",
-  "No interesado",
-  "Reabierto"
-];
+      "Nuevo",
+      "En Atracción",
+      "En Planeación",
+      "Cierre",
+      "No interesado",
+      "Reabierto"
+    ];
 
-const normalizarEstado = (estado) =>
-  ordenFases.find(e => e.toLowerCase() === estado.toLowerCase()) || estado;
+    const normalizarEstado = (estado) =>
+      ordenFases.find(e => e.toLowerCase() === estado.toLowerCase()) || estado;
 
-const graficoEstadosProspecto = Object.entries(resumenEstadosVenta)
-  .map(([estado, cantidad]) => ({
-    estado: normalizarEstado(estado),
-    cantidad,
-    porcentaje: totalVentas > 0 ? ((cantidad / totalVentas) * 100).toFixed(2) : 0
-  }))
-  .sort((a, b) =>
-    ordenFases.indexOf(normalizarEstado(a.estado)) -
-    ordenFases.indexOf(normalizarEstado(b.estado))
-  );
+    const graficoEstadosProspecto = Object.entries(resumenEstadosVenta)
+      .map(([estado, cantidad]) => ({
+        estado: normalizarEstado(estado),
+        cantidad,
+        porcentaje: totalVentas > 0 ? ((cantidad / totalVentas) * 100).toFixed(2) : 0
+      }))
+      .sort((a, b) =>
+        ordenFases.indexOf(normalizarEstado(a.estado)) -
+        ordenFases.indexOf(normalizarEstado(b.estado))
+      );
 
 
     // Filtrar prospecciones en no interesado
@@ -226,10 +225,46 @@ const graficoEstadosProspecto = Object.entries(resumenEstadosVenta)
           proximo_paso: `${tipoSeguimiento} ${fechaSeguimiento}`,
           vendedora: vendedora,
           objetivo: v.objetivo,
-      nota: siguienteSeguimiento?.nota || "-",
+          nota: siguienteSeguimiento?.nota || "-",
         };
       });
 
+    const hoy = new Date();
+
+    // Calcular cuántas ventas abiertas tienen un seguimiento pendiente y vencido
+    const ventasVencidas = ventas.filter(v => {
+      if (v.abierta === 1 && Array.isArray(v.seguimientos)) {
+        const seguimientoPendiente = v.seguimientos.find(s => s.estado === "pendiente");
+        return seguimientoPendiente && new Date(seguimientoPendiente.fecha_programada) < hoy;
+      }
+      return false;
+    });
+
+    const totalSeguimientosVencidos = ventasVencidas.length;
+
+    const tablaSeguimientosVencidos = ventasVencidas.map(v => {
+      const seguimientoPendiente = v.seguimientos.find(s => s.estado === "pendiente");
+      const prospecto = v.prospecto;
+      const vendedora = prospecto?.vendedora_prospecto?.nombre || "No asignada";
+
+      const tipoSeguimiento = seguimientoPendiente?.tipo_seguimiento?.descripcion || "-";
+      const fechaSeguimiento = seguimientoPendiente?.fecha_programada
+        ? new Date(seguimientoPendiente.fecha_programada).toLocaleDateString("es-EC")
+        : "-";
+
+      return {
+        id_venta: v.id_venta,
+        prospecto: prospecto.nombre,
+        objetivo: v.objetivo,
+        numero_empleados: prospecto.empleados ?? "No registrado",
+        fecha_apertura: new Date(v.created_at),
+        estado: v.estado_venta?.nombre || "-",
+        motivo: seguimientoPendiente?.motivo || "-",
+        nota: seguimientoPendiente?.nota || "-",
+        proximo_paso: `${tipoSeguimiento} ${fechaSeguimiento}`,
+        vendedora: vendedora,
+      };
+    });
 
 
     return res.json({
@@ -249,6 +284,8 @@ const graficoEstadosProspecto = Object.entries(resumenEstadosVenta)
       graficoVentas,
       graficoEstadosProspecto,
       graficoCategorias,
+      totalSeguimientosVencidos,
+      tablaSeguimientosVencidos,
 
     });
 

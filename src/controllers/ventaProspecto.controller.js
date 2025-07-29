@@ -235,7 +235,6 @@ const cerrarVenta = async (req, res) => {
   }
 };
 
-// Editar el objetivo de una venta
 // Editar objetivo y monto_proyectado
 const editarObjetivoVenta = async (req, res) => {
   try {
