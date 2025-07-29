@@ -21,10 +21,10 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ["http://147.93.10.109:8082", "https://gestortax.neola.app","http://localhost:5173"],
+  origin: ["http://147.93.10.109:8082", "https://gestortax.neola.app","http://localhost:5174"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
-}));
+})); 
 app.use(express.json());
 
 // Definir rutas
@@ -52,7 +52,7 @@ console.log(`Servidor corriendo en puerto ${PORT}`);
   try {
     await sequelize.authenticate();
     console.log(" Conexión a la base de datos establecida.");
-
+  
    // await sequelize.sync(); 
   // console.log(" Tablas sincronizadas.");
     
@@ -60,4 +60,3 @@ console.log(`Servidor corriendo en puerto ${PORT}`);
     console.error(" Error al conectar la base de datos:", error);
   }
 });
-
